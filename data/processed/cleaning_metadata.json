@@ -1,0 +1,149 @@
+{
+    "initial_record_count": 35064,
+    "cleaned_record_count": 35064,
+    "duplicates_removed": 0,
+    "train_cutoff_idx": 28051,
+    "imputation_medians_from_train": {
+        "PM2.5": 60.0,
+        "PM10": 92.0,
+        "SO2": 10.0,
+        "NO2": 55.0,
+        "CO": 900.0,
+        "O3": 41.0,
+        "TEMP": 14.4,
+        "PRES": 1011.1,
+        "DEWP": 3.1,
+        "RAIN": 0.0,
+        "WSPM": 1.4
+    },
+    "imputation_wd_mode_from_train": "NE",
+    "missing_before_cleaning": {
+        "PM2.5": 925,
+        "PM10": 718,
+        "SO2": 935,
+        "NO2": 1023,
+        "CO": 1776,
+        "O3": 1719,
+        "TEMP": 20,
+        "PRES": 20,
+        "DEWP": 20,
+        "RAIN": 20,
+        "WSPM": 14,
+        "wd": 81
+    },
+    "missing_after_cleaning": {
+        "PM2.5": 0,
+        "PM10": 0,
+        "SO2": 0,
+        "NO2": 0,
+        "CO": 0,
+        "O3": 0,
+        "TEMP": 0,
+        "PRES": 0,
+        "DEWP": 0,
+        "RAIN": 0,
+        "WSPM": 0,
+        "wd": 0
+    },
+    "outlier_analysis": {
+        "PM2.5": {
+            "q25": 23.0,
+            "q75": 116.0,
+            "iqr": 93.0,
+            "extreme_threshold_upper": 395.0,
+            "extreme_events_count": 297,
+            "retained": true,
+            "rationale": "High pollution and weather spikes represent genuine physical environmental episodes."
+        },
+        "PM10": {
+            "q25": 40.0,
+            "q75": 161.0,
+            "iqr": 121.0,
+            "extreme_threshold_upper": 524.0,
+            "extreme_events_count": 157,
+            "retained": true,
+            "rationale": "High pollution and weather spikes represent genuine physical environmental episodes."
+        },
+        "SO2": {
+            "q25": 4.0,
+            "q75": 24.0,
+            "iqr": 20.0,
+            "extreme_threshold_upper": 84.0,
+            "extreme_events_count": 840,
+            "retained": true,
+            "rationale": "High pollution and weather spikes represent genuine physical environmental episodes."
+        },
+        "NO2": {
+            "q25": 32.0,
+            "q75": 83.0,
+            "iqr": 51.0,
+            "extreme_threshold_upper": 236.0,
+            "extreme_events_count": 14,
+            "retained": true,
+            "rationale": "High pollution and weather spikes represent genuine physical environmental episodes."
+        },
+        "CO": {
+            "q25": 500.0,
+            "q75": 1600.0,
+            "iqr": 1100.0,
+            "extreme_threshold_upper": 4900.0,
+            "extreme_events_count": 802,
+            "retained": true,
+            "rationale": "High pollution and weather spikes represent genuine physical environmental episodes."
+        },
+        "O3": {
+            "q25": 8.0,
+            "q75": 81.0,
+            "iqr": 73.0,
+            "extreme_threshold_upper": 300.0,
+            "extreme_events_count": 51,
+            "retained": true,
+            "rationale": "High pollution and weather spikes represent genuine physical environmental episodes."
+        },
+        "TEMP": {
+            "q25": 3.4,
+            "q75": 22.7,
+            "iqr": 19.3,
+            "extreme_threshold_upper": 80.6,
+            "extreme_events_count": 0,
+            "retained": true,
+            "rationale": "High pollution and weather spikes represent genuine physical environmental episodes."
+        },
+        "PRES": {
+            "q25": 1003.2,
+            "q75": 1019.7,
+            "iqr": 16.5,
+            "extreme_threshold_upper": 1069.2,
+            "extreme_events_count": 0,
+            "retained": true,
+            "rationale": "High pollution and weather spikes represent genuine physical environmental episodes."
+        },
+        "DEWP": {
+            "q25": -8.3,
+            "q75": 15.3,
+            "iqr": 23.6,
+            "extreme_threshold_upper": 86.1,
+            "extreme_events_count": 0,
+            "retained": true,
+            "rationale": "High pollution and weather spikes represent genuine physical environmental episodes."
+        },
+        "RAIN": {
+            "q25": 0.0,
+            "q75": 0.0,
+            "iqr": 0.0,
+            "extreme_threshold_upper": 0.0,
+            "extreme_events_count": 1380,
+            "retained": true,
+            "rationale": "High pollution and weather spikes represent genuine physical environmental episodes."
+        },
+        "WSPM": {
+            "q25": 0.9,
+            "q75": 2.3,
+            "iqr": 1.4,
+            "extreme_threshold_upper": 6.5,
+            "extreme_events_count": 139,
+            "retained": true,
+            "rationale": "High pollution and weather spikes represent genuine physical environmental episodes."
+        }
+    }
+}

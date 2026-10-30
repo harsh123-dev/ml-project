@@ -1,0 +1,7 @@
+Category,Sample Count,Share (%),MAE,RMSE
+Good,661,18.85,12.49,21.474
+Moderate,655,18.68,13.754,20.875
+Unhealthy for Sensitive Groups,303,8.64,14.022,19.243
+Unhealthy,971,27.69,9.534,16.777
+Very Unhealthy,588,16.77,16.214,25.766
+Hazardous,329,9.38,23.291,33.508

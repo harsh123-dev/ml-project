@@ -1,0 +1,3 @@
+Feature Configuration,MAE,RMSE,R2
+Pollution Only,14.366,23.472,0.9502
+Pollution + Weather + Time + Wind,13.813,22.495,0.9543

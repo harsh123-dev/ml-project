@@ -1,0 +1,19 @@
+{
+    "timestamp": "2026-10-30 22:48:11",
+    "standard": "US_EPA",
+    "station": "Aotizhongxin",
+    "train_samples": 28050,
+    "test_samples": 3507,
+    "features_count_exp_b": 32,
+    "features_count_exp_a": 11,
+    "best_model_by_rmse": "LightGBM",
+    "best_model_by_mae": "LightGBM",
+    "best_model_by_r2": "LightGBM",
+    "models_trained": [
+        "LightGBM",
+        "Linear Regression",
+        "Random Forest",
+        "XGBoost",
+        "CatBoost"
+    ]
+}

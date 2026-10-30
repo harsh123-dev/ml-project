@@ -1,0 +1,218 @@
+{
+    "base_value": 143.86624145507812,
+    "sample_size": 600,
+    "case_studies": {
+        "high_pollution_case": {
+            "prediction": 493.6325378417969,
+            "base_value": 143.86624145507812,
+            "category": "Hazardous",
+            "advisory": "Health warning of emergency conditions: Serious risk of respiratory effects.",
+            "pushing_up": [
+                {
+                    "feature": "PM2.5_lag1",
+                    "value": 568.0,
+                    "shap": 292.643310546875,
+                    "abs_shap": 292.643310546875
+                },
+                {
+                    "feature": "PM10_lag1",
+                    "value": 578.0,
+                    "shap": 22.87919044494629,
+                    "abs_shap": 22.87919044494629
+                },
+                {
+                    "feature": "NO2_lag1",
+                    "value": 212.0,
+                    "shap": 15.373201370239258,
+                    "abs_shap": 15.373201370239258
+                }
+            ],
+            "pulling_down": [
+                {
+                    "feature": "WSPM",
+                    "value": 2.1,
+                    "shap": -2.0722851753234863,
+                    "abs_shap": 2.0722851753234863
+                },
+                {
+                    "feature": "PM2.5_roll6",
+                    "value": 491.6666666666667,
+                    "shap": -1.5557924509048462,
+                    "abs_shap": 1.5557924509048462
+                },
+                {
+                    "feature": "SO2_lag1",
+                    "value": 10.0,
+                    "shap": -1.3982841968536377,
+                    "abs_shap": 1.3982841968536377
+                }
+            ],
+            "top_contributions": [
+                {
+                    "feature": "PM2.5_lag1",
+                    "value": 568.0,
+                    "shap": 292.643310546875,
+                    "abs_shap": 292.643310546875
+                },
+                {
+                    "feature": "PM10_lag1",
+                    "value": 578.0,
+                    "shap": 22.87919044494629,
+                    "abs_shap": 22.87919044494629
+                },
+                {
+                    "feature": "NO2_lag1",
+                    "value": 212.0,
+                    "shap": 15.373201370239258,
+                    "abs_shap": 15.373201370239258
+                },
+                {
+                    "feature": "CO_lag1",
+                    "value": 7400.0,
+                    "shap": 6.689094066619873,
+                    "abs_shap": 6.689094066619873
+                },
+                {
+                    "feature": "TEMP",
+                    "value": -0.2,
+                    "shap": 6.577293395996094,
+                    "abs_shap": 6.577293395996094
+                },
+                {
+                    "feature": "month_sin",
+                    "value": 0.4999999999999999,
+                    "shap": 2.5456619262695312,
+                    "abs_shap": 2.5456619262695312
+                }
+            ],
+            "narrative": "The model forecasts a next-hour AQI of **493.6** (Hazardous), departing from the historical baseline expected AQI of **143.9** by **+349.8 AQI points**.\n\nThe primary drivers exacerbating pollution levels are: **PM2.5_lag1** (568.0) added **+292.6** AQI points; **PM10_lag1** (578.0) added **+22.9** AQI points; **NO2_lag1** (212.0) added **+15.4** AQI points.\n\nMitigating atmospheric and meteorological factors include: **WSPM** (2.1) reduced predicted AQI by **-2.1** points; **PM2.5_roll6** (491.7) reduced predicted AQI by **-1.6** points; **SO2_lag1** (10.0) reduced predicted AQI by **-1.4** points.\n\n**Health Advisory (Hazardous):** Health warning of emergency conditions: Serious risk of respiratory effects."
+        },
+        "clean_air_case": {
+            "prediction": 15.174956321716309,
+            "base_value": 143.86624145507812,
+            "category": "Good",
+            "advisory": "Air quality is satisfactory, and air pollution poses little or no risk.",
+            "pushing_up": [
+                {
+                    "feature": "RAIN",
+                    "value": 0.0,
+                    "shap": 0.09702229499816895,
+                    "abs_shap": 0.09702229499816895
+                },
+                {
+                    "feature": "wd_NNE",
+                    "value": 0.0,
+                    "shap": 0.059083133935928345,
+                    "abs_shap": 0.059083133935928345
+                },
+                {
+                    "feature": "wd_NNW",
+                    "value": 0.0,
+                    "shap": 0.03710063919425011,
+                    "abs_shap": 0.03710063919425011
+                }
+            ],
+            "pulling_down": [
+                {
+                    "feature": "PM2.5_lag1",
+                    "value": 3.0,
+                    "shap": -93.81794738769531,
+                    "abs_shap": 93.81794738769531
+                },
+                {
+                    "feature": "PM10_lag1",
+                    "value": 6.0,
+                    "shap": -11.074177742004395,
+                    "abs_shap": 11.074177742004395
+                },
+                {
+                    "feature": "DEWP",
+                    "value": -19.3,
+                    "shap": -4.269760608673096,
+                    "abs_shap": 4.269760608673096
+                }
+            ],
+            "top_contributions": [
+                {
+                    "feature": "PM2.5_lag1",
+                    "value": 3.0,
+                    "shap": -93.81794738769531,
+                    "abs_shap": 93.81794738769531
+                },
+                {
+                    "feature": "PM10_lag1",
+                    "value": 6.0,
+                    "shap": -11.074177742004395,
+                    "abs_shap": 11.074177742004395
+                },
+                {
+                    "feature": "DEWP",
+                    "value": -19.3,
+                    "shap": -4.269760608673096,
+                    "abs_shap": 4.269760608673096
+                },
+                {
+                    "feature": "CO_lag1",
+                    "value": 100.0,
+                    "shap": -3.8006858825683594,
+                    "abs_shap": 3.8006858825683594
+                },
+                {
+                    "feature": "WSPM",
+                    "value": 2.6,
+                    "shap": -2.998380422592163,
+                    "abs_shap": 2.998380422592163
+                },
+                {
+                    "feature": "NO2_lag1",
+                    "value": 7.0,
+                    "shap": -2.507647752761841,
+                    "abs_shap": 2.507647752761841
+                }
+            ],
+            "narrative": "The model forecasts a next-hour AQI of **15.2** (Good), departing from the historical baseline expected AQI of **143.9** by **-128.7 AQI points**.\n\nThe primary drivers exacerbating pollution levels are: **RAIN** (0.0) added **+0.1** AQI points; **wd_NNE** (0.0) added **+0.1** AQI points; **wd_NNW** (0.0) added **+0.0** AQI points.\n\nMitigating atmospheric and meteorological factors include: **PM2.5_lag1** (3.0) reduced predicted AQI by **-93.8** points; **PM10_lag1** (6.0) reduced predicted AQI by **-11.1** points; **DEWP** (-19.3) reduced predicted AQI by **-4.3** points.\n\n**Health Advisory (Good):** Air quality is satisfactory, and air pollution poses little or no risk."
+        }
+    },
+    "top_features": [
+        {
+            "Feature": "PM2.5_lag1",
+            "Mean_Abs_SHAP": 74.36009979248047
+        },
+        {
+            "Feature": "PM10_lag1",
+            "Mean_Abs_SHAP": 6.029399871826172
+        },
+        {
+            "Feature": "NO2_lag1",
+            "Mean_Abs_SHAP": 3.2822000980377197
+        },
+        {
+            "Feature": "WSPM",
+            "Mean_Abs_SHAP": 2.2720000743865967
+        },
+        {
+            "Feature": "DEWP",
+            "Mean_Abs_SHAP": 1.8456000089645386
+        },
+        {
+            "Feature": "hour_sin",
+            "Mean_Abs_SHAP": 1.8255000114440918
+        },
+        {
+            "Feature": "CO_lag1",
+            "Mean_Abs_SHAP": 1.7015999555587769
+        },
+        {
+            "Feature": "PM2.5_roll6",
+            "Mean_Abs_SHAP": 1.6984000205993652
+        },
+        {
+            "Feature": "TEMP",
+            "Mean_Abs_SHAP": 1.5317000150680542
+        },
+        {
+            "Feature": "hour_cos",
+            "Mean_Abs_SHAP": 1.4020999670028687
+        }
+    ]
+}
