@@ -28,6 +28,13 @@ bar_img = os.path.join(shap_dir, "shap_summary_bar.png")
 waterfall1_img = os.path.join(shap_dir, "shap_waterfall_case1.png")
 waterfall2_img = os.path.join(shap_dir, "shap_waterfall_case2.png")
 
+# Explainability Reference Model
+st.markdown("""
+<div style="background-color: #EBF8FF; border-left: 5px solid #3182CE; padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem;">
+    <strong>Explainability Reference Model:</strong> <code>XGBoost Regressor</code> (Consistent with Review 3 presentation and experimental research report).
+</div>
+""", unsafe_allow_html=True)
+
 # Educational Banner
 st.info("""
 **What is SHAP?**
@@ -35,6 +42,41 @@ Rooted in cooperative game theory (Shapley, 1953), SHAP calculates the exact mar
 - **Positive SHAP (+):** Feature drove next-hour AQI higher (exacerbating pollution).
 - **Negative SHAP (-):** Feature lowered next-hour AQI (mitigating or cleansing the air).
 """)
+
+# Top Influential Drivers Identified from Actual SHAP Values (Section 12 requirement)
+if os.path.exists(ranking_csv_path):
+    r_df = pd.read_csv(ranking_csv_path)
+    poll_set = {"PM2.5_lag1", "PM10_lag1", "SO2_lag1", "NO2_lag1", "CO_lag1", "O3_lag1", "PM2.5_roll6"}
+    weath_set = {"TEMP", "PRES", "DEWP", "RAIN", "WSPM"}.union({f"wd_{w}" for w in ["E", "ENE", "ESE", "N", "NE", "NNE", "NNW", "NW", "S", "SE", "SSE", "SSW", "SW", "W", "WNW", "WSW"]})
+    temp_set = {"hour_sin", "hour_cos", "month_sin", "month_cos"}
+
+    top_poll = r_df[r_df["Feature"].isin(poll_set)].iloc[0]
+    top_weath = r_df[r_df["Feature"].isin(weath_set)].iloc[0]
+    top_temp = r_df[r_df["Feature"].isin(temp_set)].iloc[0]
+
+    k1, k2, k3 = st.columns(3)
+    with k1:
+        st.metric(
+            label="Most Influential Pollutant",
+            value=f"{top_poll['Feature']}",
+            delta=f"Mean |SHAP|: {top_poll['Mean_Abs_SHAP']:.2f} AQI pts",
+            delta_color="off"
+        )
+    with k2:
+        st.metric(
+            label="Most Influential Weather Driver",
+            value=f"{top_weath['Feature']}",
+            delta=f"Mean |SHAP|: {top_weath['Mean_Abs_SHAP']:.2f} AQI pts",
+            delta_color="off"
+        )
+    with k3:
+        st.metric(
+            label="Most Influential Temporal Signal",
+            value=f"{top_temp['Feature']}",
+            delta=f"Mean |SHAP|: {top_temp['Mean_Abs_SHAP']:.2f} AQI pts",
+            delta_color="off"
+        )
+    st.markdown("---")
 
 # 1. Global Feature Explanations
 st.subheader("1. Global Explainability Across the Entire Test Partition")

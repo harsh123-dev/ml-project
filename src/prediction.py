@@ -149,7 +149,10 @@ class AirQualityPredictor:
         row["dow_cos"] = float(np.cos(2 * np.pi * dow / 7.0))
 
         # 5. Wind direction one-hot encoding
-        active_wd = str(raw_input.get("wd", "NE")).strip().upper()
+        raw_wd = raw_input.get("wd")
+        active_wd = str(raw_wd).strip().upper() if raw_wd is not None else "NE"
+        if active_wd not in ALL_WIND_DIRECTIONS:
+            active_wd = "NE"
         for wd in ALL_WIND_DIRECTIONS:
             row[f"wd_{wd}"] = 1.0 if wd == active_wd else 0.0
 
@@ -217,6 +220,12 @@ class AirQualityPredictor:
                     shap_values=shap_vals,
                     top_k=3
                 )
+                nl_explanation["explainer_reference_model"] = "XGBoost"
+                if model_name != "XGBoost":
+                    nl_explanation["attribution_note"] = (
+                        f"Note: Local SHAP feature attribution is referenced against the validated XGBoost "
+                        f"explainability baseline model, matching the experimental research report."
+                    )
                 response["explanation"] = nl_explanation
             except Exception as e:
                 response["explanation"] = {"error": f"Could not compute SHAP: {str(e)}"}

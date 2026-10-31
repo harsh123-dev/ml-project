@@ -17,10 +17,10 @@ import plotly.graph_objects as go
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from src.aqi_calculator import get_aqi_category
 
-st.set_page_config(page_title="AIRWISE — Live Dashboard", page_icon="📊", layout="wide")
+st.set_page_config(page_title="AIRWISE — Atmospheric Dashboard", page_icon="📊", layout="wide")
 
-st.title("📊 Atmospheric Dashboard & Trends")
-st.caption("Aotizhongxin Monitoring Station, Beijing | UCI Multi-Site Air Quality Dataset")
+st.title("📊 Atmospheric Dashboard & Historical Trends")
+st.caption("Aotizhongxin Monitoring Station, Beijing | Historical Observation Window: March 2013 – February 2017 (UCI Air Quality Dataset)")
 
 @st.cache_data
 def load_data():
@@ -37,17 +37,18 @@ if df is None:
     st.error("Processed features dataset not found. Please run feature engineering pipeline.")
     st.stop()
 
-# Latest Observation KPIs
+# Latest Historical Observation KPIs (Clearly distinguished from model forecasts)
 latest = df.iloc[-1]
-aqi_cat = get_aqi_category(latest["target_aqi_next_hour"])
+aqi_cat = get_aqi_category(latest["AQI"])
 
-st.subheader("Latest Recorded Atmospheric Telemetry")
+st.subheader(f"Latest Recorded Station Telemetry ({latest['datetime'].strftime('%Y-%m-%d %H:00')})")
+st.caption("Observed in-situ sensor measurements (historical ground-truth), not live or model forecasts.")
 kpi1, kpi2, kpi3, kpi4, kpi5 = st.columns(5)
 
 with kpi1:
     st.metric(
         label="Observed AQI (PM2.5)",
-        value=f"{latest['target_aqi_next_hour']:.1f}",
+        value=f"{latest['AQI']:.1f}",
         delta=f"{aqi_cat['category']}",
         delta_color="off"
     )
@@ -79,9 +80,9 @@ else:
     fig_aqi = go.Figure()
     fig_aqi.add_trace(go.Scatter(
         x=filtered_df["datetime"],
-        y=filtered_df["target_aqi_next_hour"],
+        y=filtered_df["AQI"],
         mode="lines",
-        name="Hourly AQI",
+        name="Observed Hourly AQI",
         line=dict(color="#1A365D", width=2.2)
     ))
     # Add horizontal reference bands for US EPA levels
@@ -93,7 +94,7 @@ else:
     fig_aqi.add_hrect(y0=300, y1=500, fillcolor="#7E0023", opacity=0.15, line_width=0, annotation_text="Hazardous (301-500)")
 
     fig_aqi.update_layout(
-        title=f"Hourly AQI Evolution ({year_selected}-{month_selected:02d}) with EPA Standard Severity Bands",
+        title=f"Observed Hourly AQI Evolution ({year_selected}-{month_selected:02d}) with EPA Standard Severity Bands",
         xaxis_title="Timestamp",
         yaxis_title="AQI Sub-Index",
         template="plotly_white",
@@ -137,7 +138,7 @@ st.subheader("Longitudinal AQI Category Distribution (Full 4-Year Record)")
 col_dist1, col_dist2 = st.columns(2)
 
 with col_dist1:
-    cat_counts = df["target_aqi_next_hour"].apply(lambda v: get_aqi_category(v)["category"]).value_counts()
+    cat_counts = df["AQI"].apply(lambda v: get_aqi_category(v)["category"]).value_counts()
     cat_df = pd.DataFrame({"Category": cat_counts.index, "Hours": cat_counts.values})
     color_map = {
         "Good": "#00E400",
@@ -164,10 +165,10 @@ with col_dist2:
     fig_weather = px.scatter(
         df.sample(2000, random_state=42),
         x="TEMP",
-        y="target_aqi_next_hour",
+        y="AQI",
         color="WSPM",
         color_continuous_scale="Blues",
-        labels={"TEMP": "Temperature (°C)", "target_aqi_next_hour": "AQI Sub-Index", "WSPM": "Wind Speed (m/s)"},
+        labels={"TEMP": "Temperature (°C)", "AQI": "Observed AQI Sub-Index", "WSPM": "Wind Speed (m/s)"},
         title="Meteorological Interaction: Temp & Wind Speed vs AQI"
     )
     fig_weather.update_layout(template="plotly_white")

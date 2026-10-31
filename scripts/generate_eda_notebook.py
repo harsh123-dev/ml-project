@@ -61,6 +61,7 @@ This notebook provides an exhaustive exploratory analysis of continuous hourly a
 add_md("""## 1. Environment Setup & Library Imports""")
 add_code("""import os
 import sys
+import json
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -74,16 +75,19 @@ plt.rcParams['figure.dpi'] = 150
 plt.rcParams['font.sans-serif'] = 'DejaVu Sans'
 
 # Add project root to sys.path
-sys.path.insert(0, os.path.abspath('..'))
+root_dir = os.path.abspath('..' if os.path.exists(os.path.join('..', 'src')) else '.')
+if root_dir not in sys.path:
+    sys.path.insert(0, root_dir)
 from src.aqi_calculator import calculate_pm25_aqi, get_aqi_category
 print("Libraries imported successfully!")""")
 
 # Section 3
 add_md("""## 2. Dataset Ingestion & Station Metadata Verification
 We ingest the primary dataset for Aotizhongxin station (35,064 hourly records across 18 raw columns).""")
-add_code("""data_path = os.path.join('..', 'data', 'raw', 'PRSA_Data_20130301-20170228', 'PRSA_Data_Aotizhongxin_20130301-20170228.csv')
+add_code("""base_dir = '..' if os.path.exists(os.path.join('..', 'data')) else '.'
+data_path = os.path.join(base_dir, 'data', 'raw', 'PRSA_Data_20130301-20170228', 'PRSA_Data_Aotizhongxin_20130301-20170228.csv')
 if not os.path.exists(data_path):
-    data_path = os.path.join('..', 'data', 'processed', 'features_aotizhongxin.csv')
+    data_path = os.path.join(base_dir, 'data', 'processed', 'features_aotizhongxin.csv')
 
 df_raw = pd.read_csv(data_path)
 print(f"Dataset Shape: {df_raw.shape}")
@@ -234,11 +238,17 @@ for p in available_p:
 # Section 14
 add_md("""## 13. Target Horizon ($AQI_{t+1}$) & Autocorrelation Structure (ACF)
 We evaluate the 1-hour forward shift and examine the temporal memory of the atmospheric boundary layer.""")
-add_code("""from statsmodels.tsa.stattools import acf, pacf
+add_code("""def compute_autocorrelation(series, max_lags=24):
+    try:
+        from statsmodels.tsa.stattools import acf
+        return acf(series, nlags=max_lags)
+    except (ImportError, ModuleNotFoundError):
+        s = pd.Series(series)
+        return np.array([1.0] + [float(s.autocorr(lag=lag)) for lag in range(1, max_lags + 1)])
 
 if 'AQI_EPA' in df_raw.columns:
     series = df_raw['AQI_EPA'].dropna().values[:1000]
-    lag_acf = acf(series, nlags=24)
+    lag_acf = compute_autocorrelation(series, max_lags=24)
     plt.figure(figsize=(10, 4))
     plt.stem(range(len(lag_acf)), lag_acf)
     plt.title('Autocorrelation Function (ACF) of AQI up to 24 Hours Lag')
@@ -252,9 +262,10 @@ if 'AQI_EPA' in df_raw.columns:
 add_md("""## 14. Multi-Modal Feature Matrix Construction
 Engineering cyclical trigonometric time transforms, multi-scale rolling means, and one-hot wind direction vectors.""")
 add_code("""print("Feature engineering pipeline output:")
-meta_path = os.path.join('..', 'data', 'processed', 'feature_metadata.json')
+base_dir = '..' if os.path.exists(os.path.join('..', 'data')) else '.'
+meta_path = os.path.join(base_dir, 'data', 'processed', 'feature_metadata.json')
 if os.path.exists(meta_path):
-    with open(meta_path) as f:
+    with open(meta_path, 'r', encoding='utf-8') as f:
         meta = json.load(f)
     print(f"Total engineered features (Experiment B): {len(meta['experiment_b_features'])}")
     print(f"Ablation features (Experiment A): {len(meta['experiment_a_features'])}")""")

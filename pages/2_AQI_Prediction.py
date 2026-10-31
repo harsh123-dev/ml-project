@@ -55,10 +55,29 @@ selected_standard = st.sidebar.radio(
 
 # Preset buttons
 st.subheader("1. Atmospheric & Telemetry Inputs")
-preset_col1, preset_col2, preset_col3 = st.columns(3)
+preset_col0, preset_col1, preset_col2, preset_col3 = st.columns(4)
 
-preset_mode = None
-if preset_col1.button("🌿 Preset: Clean Summer Air"):
+if preset_col0.button("📍 Latest Station Observation"):
+    features_csv = os.path.join(os.path.dirname(__file__), "..", "data", "processed", "features_aotizhongxin.csv")
+    if os.path.exists(features_csv):
+        df_feat = pd.read_csv(features_csv)
+        latest_row = df_feat.iloc[-1]
+        st.session_state["pm25"] = float(latest_row["PM2.5_lag1"])
+        st.session_state["pm10"] = float(latest_row["PM10_lag1"])
+        st.session_state["so2"] = float(latest_row["SO2_lag1"])
+        st.session_state["no2"] = float(latest_row["NO2_lag1"])
+        st.session_state["co"] = float(latest_row["CO_lag1"])
+        st.session_state["o3"] = float(latest_row["O3_lag1"])
+        st.session_state["temp"] = float(latest_row["TEMP"])
+        st.session_state["pres"] = float(latest_row["PRES"])
+        st.session_state["dewp"] = float(latest_row["DEWP"])
+        st.session_state["rain"] = float(latest_row["RAIN"])
+        st.session_state["wspm"] = float(latest_row["WSPM"])
+        st.session_state["wd"] = str(latest_row["wd"]).strip() if "wd" in latest_row else "NNW"
+        st.session_state["hour"] = int(latest_row["hour"])
+        st.session_state["month"] = int(latest_row["month"])
+
+if preset_col1.button("🌿 Clean Summer Air"):
     st.session_state["pm25"] = 14.0
     st.session_state["pm10"] = 28.0
     st.session_state["so2"] = 3.0
@@ -74,7 +93,7 @@ if preset_col1.button("🌿 Preset: Clean Summer Air"):
     st.session_state["hour"] = 14
     st.session_state["month"] = 7
 
-if preset_col2.button("🔄 Preset: Typical Autumn Day (Moderate)"):
+if preset_col2.button("🔄 Moderate Autumn Day"):
     st.session_state["pm25"] = 78.0
     st.session_state["pm10"] = 112.0
     st.session_state["so2"] = 15.0
@@ -90,7 +109,7 @@ if preset_col2.button("🔄 Preset: Typical Autumn Day (Moderate)"):
     st.session_state["hour"] = 10
     st.session_state["month"] = 10
 
-if preset_col3.button("⚠️ Preset: Severe Winter Smog Event"):
+if preset_col3.button("⚠️ Severe Winter Smog"):
     st.session_state["pm25"] = 285.0
     st.session_state["pm10"] = 340.0
     st.session_state["so2"] = 45.0
@@ -132,7 +151,9 @@ with st.form("prediction_form"):
             rain = st.number_input("Precipitation / Rain (mm)", min_value=0.0, max_value=100.0, value=st.session_state.get("rain", 0.0), step=0.1)
         with wcol3:
             wspm = st.number_input("Wind Speed (m/s)", min_value=0.0, max_value=30.0, value=st.session_state.get("wspm", 1.8), step=0.2)
-            wd = st.selectbox("Prevailing Wind Direction", options=ALL_WIND_DIRECTIONS, index=ALL_WIND_DIRECTIONS.index(st.session_state.get("wd", "NE")))
+            cur_wd = str(st.session_state.get("wd", "NE")).strip().upper()
+            wd_idx = ALL_WIND_DIRECTIONS.index(cur_wd) if cur_wd in ALL_WIND_DIRECTIONS else ALL_WIND_DIRECTIONS.index("NE")
+            wd = st.selectbox("Prevailing Wind Direction", options=ALL_WIND_DIRECTIONS, index=wd_idx)
 
     with tab3:
         tcol1, tcol2, tcol3 = st.columns(3)
@@ -178,12 +199,14 @@ if submit_btn:
     with res_col2:
         st.markdown(f"### Health Advisory ({res['category']})")
         st.info(f"**Medical Guidance:** {res['advisory']}")
+        st.caption("Forecast Transparency: This output is a machine learning statistical forecast ($AQI_{t+1}$), not a direct sensor measurement.")
         st.caption("Target definition: Next-hour PM2.5-derived Air Quality Index ($AQI_{t+1}$).")
 
     # Local SHAP Explainability
     if "explanation" in res and "top_contributions" in res["explanation"]:
         st.markdown("---")
         st.subheader("3. Transparent SHAP Reasoning & Attribution")
+        st.caption(f"Feature attribution computed via the XGBoost TreeExplainer reference baseline (Historical test base: {res['explanation'].get('base_value', 143.9):.1f} AQI points).")
 
         expl = res["explanation"]
         st.markdown(expl["narrative"])

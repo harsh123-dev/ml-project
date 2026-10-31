@@ -185,22 +185,22 @@ st.subheader("Explore Application Pages")
 ncol1, ncol2, ncol3 = st.columns(3)
 
 with ncol1:
-    st.markdown("#### 📊 [1. Live Dashboard](Dashboard)")
-    st.write("Examine real-time atmospheric KPI cards, multi-pollutant historical trends, and AQI distribution across Beijing seasons.")
+    st.page_link("pages/1_Dashboard.py", label="1. Historical Dashboard & Trends", icon="📊")
+    st.write("Examine atmospheric telemetry KPI cards, multi-pollutant historical trends, and AQI distribution across Beijing seasons.")
 
-    st.markdown("#### 🔬 [2. AQI Prediction](AQI_Prediction)")
-    st.write("Forecast next-hour AQI interactively using real or custom sensor inputs with instant on-the-fly local SHAP reasoning.")
+    st.page_link("pages/2_AQI_Prediction.py", label="2. AQI Forecasting & Local SHAP", icon="🔬")
+    st.write("Forecast next-hour AQI interactively using sensor observations with instant on-the-fly local SHAP reasoning.")
 
 with ncol2:
-    st.markdown("#### 📈 [3. Model Performance](Model_Performance)")
+    st.page_link("pages/3_Model_Performance.py", label="3. Model Performance Benchmark", icon="📈")
     st.write("Compare all 5 algorithms, analyze ablation study results (Pollution Only vs Multi-modal), and inspect residual diagnostics.")
 
-    st.markdown("#### 🧠 [4. SHAP Explainability](SHAP_Explainability)")
+    st.page_link("pages/4_SHAP_Explainability.py", label="4. SHAP Explainability", icon="🧠")
     st.write("Deep dive into global feature importance beeswarms, bar rankings, and comparative clean vs hazardous case studies.")
 
 with ncol3:
-    st.markdown("#### 🗄️ [5. Data Explorer](Data_Explorer)")
-    st.write("Inspect raw records, missing value audits, correlation heatmaps, and distribution histograms.")
+    st.page_link("pages/5_Data_Explorer.py", label="5. Data Explorer & Audit", icon="🗄️")
+    st.write("Inspect processed records, missing value audits, correlation heatmaps, and distribution histograms.")
 
-    st.markdown("#### ℹ️ [6. About the Project](About_Project)")
+    st.page_link("pages/6_About_Project.py", label="6. About the Project", icon="ℹ️")
     st.write("Learn about the project methodology, academic context, VIT team credentials, and GitHub repository links.")

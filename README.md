@@ -1,7 +1,7 @@
 # AIRWISE: Explainable Air Quality Index Prediction Using Ensemble Machine Learning and Weather Data
 
 [![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
-[![Tests](https://img.shields.io/badge/Pytest-23%2F23%20Passed-brightgreen.svg)]()
+[![Tests](https://img.shields.io/badge/Pytest-44%2F44%20Passed-brightgreen.svg)]()
 [![Standard](https://img.shields.io/badge/Standard-US%20EPA%2040%20CFR%2058-orange.svg)](https://www.epa.gov/criteria-air-pollutants)
 [![Explainability](https://img.shields.io/badge/XAI-SHAP%20TreeExplainer-purple.svg)](https://shap.readthedocs.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -203,11 +203,14 @@ ml project/
 │   └── visualization.py            # Matplotlib charts & Plotly builders
 ├── tests/
 │   ├── conftest.py                 # Pytest C-runtime initialization hook
-│   ├── test_aqi.py                 # 5 unit tests for AQI breakpoints
+│   ├── test_app.py                 # 10 integration tests for Streamlit app, 6 pages, & interactive actions
+│   ├── test_aqi.py                 # 5 unit tests for EPA/CPCB AQI breakpoints
+│   ├── test_cleaning.py            # 4 unit tests for leakage-free cleaning & sorting
 │   ├── test_data.py                # 3 unit tests for dataset integrity
 │   ├── test_features.py            # 3 unit tests for feature transformations
 │   ├── test_models.py              # 4 unit tests for model persistence & metrics
-│   └── test_prediction.py          # 8 unit tests for inference & validation
+│   ├── test_notebook.py            # 2 integration tests for EDA notebook cell execution & structure
+│   └── test_prediction.py          # 13 unit tests for inference, validation, & concurrent thread safety
 ├── app.py                          # Master Streamlit entrypoint
 ├── requirements.txt                # Python dependencies
 ├── LICENSE                         # MIT License
@@ -247,11 +250,11 @@ python src/visualization.py
 python src/shap_explainer.py
 ```
 
-### 3. Run the Unit Test Suite (23 Tests)
+### 3. Run the Unit and Integration Test Suite (44 Tests)
 ```powershell
 python -m pytest tests/ -v
 ```
-*Expected Result: `23 passed in 5.63s`*
+*Expected Result: `44 passed in ~12s`*
 
 ### 4. Launch the Interactive Streamlit Web Application
 ```powershell
